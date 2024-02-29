@@ -82,8 +82,21 @@ public class LoginForm {
     
     @FXML
     public void forgotHandler(MouseEvent event) {
-        // Define the action you want to perform when the "Forgot" label is clicked
-        System.out.println("Forgot label clicked!");
-        // Add your action here, such as opening a new window for password recovery
+        try {
+            // Load the ForgotPassword.fxml file
+            Parent root = FXMLLoader.load(getClass().getResource("/ForgotPassword.fxml"));
+            
+            // Create a new stage for the ForgotPassword scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Close the current stage (login form)
+            Stage loginStage = (Stage) username_text.getScene().getWindow();
+            loginStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

@@ -8,23 +8,25 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
-    @Override
-    public void start(Stage stage) {
-        try {
-            
-            Parent root = FXMLLoader.load(getClass().getResource("/LoginForm.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            stage.setScene(scene);
-            
-            stage.initStyle(StageStyle.UTILITY);
+	@Override
+	public void start(Stage stage) {
+	    try {
+	        stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
+	        Parent root = FXMLLoader.load(getClass().getResource("/LoginForm.fxml"));
 
-            
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	        Scene loginScene = new Scene(root);
+	        loginScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); // Corrected path
+
+	        // Set the scene for the login form
+	        
+	        stage.setScene(loginScene);
+	        stage.show();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
 
     public static void main(String[] args) {
         launch(args);
