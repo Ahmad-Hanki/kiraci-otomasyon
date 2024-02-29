@@ -21,9 +21,9 @@
 }
 
 #forgot {
-    -fx-text-fill: blue; /* Sets the text color to blue */
-    -fx-underline: true; /* Underlines the text */
-    -fx-cursor: hand; /* Changes cursor to a hand on hover */
+    -fx-text-fill: blue; 
+    -fx-underline: true; 
+    -fx-cursor: hand; 
 }
 
 #loginBackButton {

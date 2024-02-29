@@ -1,0 +1,28 @@
+#mainWindow {
+	-fx-background-color: #EEEEEE
+}
+
+#rightWindow{
+	 -fx-background-color: linear-gradient(lightgreen, skyblue);
+	
+}
+#welcomeTxt {
+    -fx-font-weight: bolder;
+}
+#line {
+    -fx-background-color: black;
+}
+
+#adminImg{
+	-fx-background-color: transparent;
+	
+}
+#HomeNav{
+		 -fx-background-color: linear-gradient(lime,skyblue );
+	
+}
+
+#Total{
+			 -fx-background-color: linear-gradient(#DEDEDE,black );
+	
+}
