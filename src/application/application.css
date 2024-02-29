@@ -1,4 +1,4 @@
-#logInForm {
+#logInForm, ForgotWindow {
      -fx-background-color: linear-gradient(lightgreen, skyblue);
     -fx-background-insets: 0, 5;
     -fx-background-radius: 20;
@@ -14,8 +14,14 @@
     -fx-background-radius: 20; 
 }
 
-#login_button {
+#login_button, #loginBackButton {
     -fx-background-color: linear-gradient(to right, lightgreen, skyblue); 
     -fx-background-radius: 20; 
     
+}
+
+.forgot {
+    -fx-text-fill: blue; /* Sets the text color to blue */
+    -fx-underline: true; /* Underlines the text */
+    -fx-cursor: hand; /* Changes cursor to a hand on hover */
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="logInForm" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="logInForm" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginForm">
    <children>
    <AnchorPane fx:id="wraper_white" layoutX="82.0" layoutY="44.0" prefHeight="406.0" prefWidth="488.0">
    <children>
@@ -27,9 +27,9 @@
          </font>
       </TextField>
       <CheckBox alignment="CENTER" layoutX="81.0" layoutY="281.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="122.0" />
-      <Label layoutX="381.0" layoutY="281.0" text="Forgot?" />
+      <Label fx:id="forgot" layoutX="381.0" layoutY="281.0" onMouseClicked="#forgotHandler" text="Forgot?" />
       <Label layoutX="124.0" layoutY="281.0" text="Remember me" />
-      <Button fx:id="login_button" layoutX="81.0" layoutY="318.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="342.0" text="Login">
+      <Button fx:id="login_button" layoutX="81.0" layoutY="318.0" mnemonicParsing="false" onAction="#verifyLogin" prefHeight="60.0" prefWidth="342.0" text="Login">
          <font>
             <Font size="24.0" />
          </font>
