@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class LoginForm {
 
@@ -42,7 +43,7 @@ public class LoginForm {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         // Credentials are correct, go to the main page
-                        navigateToMainPage();
+                        navigateToControlPage();
                     } else {
                         // Credentials are incorrect
                         System.out.println("Login failed: Incorrect username or password");
@@ -65,11 +66,13 @@ public class LoginForm {
 
 
 
-    private void navigateToMainPage() {
+    private void navigateToControlPage() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/MainPage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ControlPage.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
             stage.show();
 
             // Close the current stage (login form)
@@ -85,11 +88,15 @@ public class LoginForm {
         try {
             // Load the ForgotPassword.fxml file
             Parent root = FXMLLoader.load(getClass().getResource("/ForgotPassword.fxml"));
-            
+
             // Create a new stage for the ForgotPassword scene
             Stage stage = new Stage();
+
             stage.setScene(new Scene(root));
+	        stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
             stage.show();
+
 
             // Close the current stage (login form)
             Stage loginStage = (Stage) username_text.getScene().getWindow();
