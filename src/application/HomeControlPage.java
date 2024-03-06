@@ -51,6 +51,7 @@ public class HomeControlPage {
         }
     }
 
+    @FXML
     private void updateRowCountLabel() {
         // Database connection parameters
         String url = "jdbc:mysql://localhost:3306/javaFx";
@@ -74,4 +75,27 @@ public class HomeControlPage {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+	public void tenantControlHandler(MouseEvent event) {
+    	 try {
+             // Get the source node of the event
+             Parent root = FXMLLoader.load(getClass().getResource("/TenantControlPage.fxml"));
+
+             Stage stage = new Stage();
+             stage.setScene(new Scene(root));
+             stage.setTitle("Control Tenants");
+             stage.getIcons().add(new Image(getClass().getResourceAsStream("/rent.png")));
+             stage.initStyle(StageStyle.DECORATED);
+             stage.setResizable(false);
+             stage.show();
+
+             // Close the current stage
+             stage = (Stage) TotalLbl.getScene().getWindow();
+             stage.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+	}
+    
 }
