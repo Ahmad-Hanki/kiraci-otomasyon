@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,27 +50,14 @@ public class db {
     // Method to insert a new record into the database
  // Method to insert a new record into the database
     public static String createOne(String tenantId, String fullName, String gender, String phone, String rentalDate, String rentalPeriod) {
-        // Validate inputs
-        if (fullName.isEmpty()) {
-            return "Full name cannot be empty.";
-        }
-
-        if (gender.isEmpty() || (!gender.equalsIgnoreCase("Male") && !gender.equalsIgnoreCase("Female"))) {
-            return "Invalid gender. Gender must be either 'Male' or 'Female'.";
-        }
-
-        if (phone.isEmpty()) {
-            return "Phone number cannot be empty.";
-        }
-
-        if (rentalDate.isEmpty()) {
-            return "Rental date cannot be empty.";
-        }
-
-        // Validate phone number format and length
-        if (!phone.matches("\\d{8,11}")) {
-            return "Invalid phone number format or length.";
-        }
+    	
+    	boolean exists = checkTenantExists(tenantId);
+    	
+		if (exists) {
+			return "Tenant ID already exists.";
+		}
+	
+        
 
         // Extract the number part from the rental period string
         String[] parts = rentalPeriod.split(" ");
@@ -103,6 +91,68 @@ public class db {
             e.printStackTrace();
             return "Error inserting record: " + e.getMessage(); // Return error message
         }
+    }
+
+    
+    
+    public static String updateOne(String tenantId, String fullName, String gender, String phone, String rentalDate, String rentalPeriod) {
+
+
+        // Check if the tenant ID exists in the database
+        boolean exists = checkTenantExists(tenantId);
+        if (!exists) {
+            return "No tenant found with ID: " + tenantId;
+        }
+
+
+     
+
+        // Extract the number part from the rental period string
+        String[] parts = rentalPeriod.split(" ");
+        if (parts.length != 2 || !parts[1].equals("Months")) {
+            return "Invalid rental period format. Expected format: <number> Months";
+        }
+
+        // Proceed with updating data in the database
+        String query = "UPDATE tenant SET full_name=?, gender=?, phone=?, rental_date=?, rental_period=? WHERE tenant_id=?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+        	stmt.setString(1, fullName);
+        	stmt.setString(2, gender);
+        	stmt.setString(3, phone);
+        	stmt.setString(4, rentalDate); // Set rentalDate as a string
+        	stmt.setString(5, rentalPeriod); // Inserting rental period as string
+        	stmt.setString(6, tenantId);
+        	
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                return "Failed to update tenant with ID: " + tenantId;
+            }
+
+            System.out.println("Record updated successfully!");
+            return null; // Return null to indicate success
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error updating record: " + e.getMessage(); // Return error message
+        }
+    }
+
+    private static boolean checkTenantExists(String tenantId) {
+        String query = "SELECT COUNT(*) FROM tenant WHERE tenant_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, tenantId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

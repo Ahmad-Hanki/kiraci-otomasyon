@@ -155,7 +155,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="update" layoutX="431.0" layoutY="429.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="102.0" text="Update">
+            <Button fx:id="update" layoutX="431.0" layoutY="429.0" mnemonicParsing="false" onAction="#updateHandler" prefHeight="35.0" prefWidth="102.0" text="Update">
                <font>
                   <Font size="18.0" />
                </font>

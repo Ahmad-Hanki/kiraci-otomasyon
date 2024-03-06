@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -205,22 +204,149 @@ public class TenantControlPage {
 	  }
 
 
-	  @FXML
+	  @SuppressWarnings("unused")
+	@FXML
 	  public void addHandler(ActionEvent event) {
 	      // Retrieve input values from JavaFX controls
+	      String tenantId = id_txt.getText().trim(); // Parsing as String and trim whitespace
+	      String fullName = fullname_txt.getText().trim();
+	      String phone = phone_txt.getText().trim();
+	      LocalDate rentalDate = rentaldate_txt.getValue(); // Retrieve as LocalDate
+	      String rentalPeriod = getSelectedRentalPeriod();
+	      String gender = male.isSelected() ? "Male" : (female.isSelected() ? "Female" : "");
+
+
+	      // Check if any field is empty
+	      if (tenantId.isEmpty() || fullName.isEmpty() || phone.isEmpty() || rentalDate == null || rentalPeriod == null) {
+	          invalid.setText("Please fill in all fields."); // Show error message
+	          return;
+	      }
+	      
+	      
+			if (rentalDate == null) {
+				invalid.setText("Please select a rental date."); // Show error message
+				return;
+			}
+	      
+	      // Validate tenant ID format and length
+	      if (!tenantId.matches("\\d{1,20}")) {
+	          invalid.setText("Invalid ID: Please enter a valid tenant ID."); // Show error message
+	          return;
+	      }
+
+	      // Validate phone number format
+	      if (!phone.matches("\\d{10}")) {
+	          invalid.setText("Invalid phone number: Please enter a 10-digit number."); // Show error message
+	          return;
+	      }
+
+	      
+			if (rentalPeriod.isEmpty()) {
+				invalid.setText("Please select a rental period."); // Show error message
+				return;
+			}
+			
+			//validate fullname
+			if (fullName.isEmpty()) {
+				invalid.setText("Please enter the full name."); // Show error message
+				return;
+			}
+			
+			   if (gender.isEmpty()) {
+			        invalid.setText("Please select a gender.");
+			        return;
+			    }
+	
+			
+			
+	      // Proceed with database insertion if validation passes
+	      String rentalDateString = rentalDate.toString(); // Convert LocalDate to String
+	      
+	 
+	
+
+	      
+	      // Print debug information
+	      System.out.println("tenantId: " + tenantId);
+	      System.out.println("fullName: " + fullName);
+	      System.out.println("gender: " + gender);
+	      System.out.println("phone: " + phone);
+	      System.out.println("rentalDate: " + rentalDateString);
+	      System.out.println("rentalPeriod: " + rentalPeriod);
+
+	      // Validate and insert data into the database
+	      String errorMessage = db.createOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod);
+	      if (errorMessage == null) {
+	          // Reset all fields
+	          id_txt.setText("");
+	          fullname_txt.setText("");
+	          phone_txt.setText("");
+	          rentaldate_txt.setValue(null);
+	          male.setSelected(false);
+	          female.setSelected(false);
+	          three_months.setSelected(false);
+	          six_months.setSelected(false);
+	          nine_months.setSelected(false);
+	          twelve_months.setSelected(false);
+	          invalid.setText(""); // Clear any error message
+	          refreshTable();
+	      } else {
+	          // Data insertion failed, show error message
+	          invalid.setText(errorMessage);
+	      }
+	  }
+
+
+	  @FXML
+	  public void updateHandler(ActionEvent event) {
+	      // Retrieve input values from JavaFX controls
 	      String tenantId = id_txt.getText().toString(); // Parsing as String
+	      String fullName = fullname_txt.getText().toString();
+	      String gender = male.isSelected() ? "Male" : (female.isSelected() ? "Female" : "");
+	      String phone = phone_txt.getText().toString();
+	      LocalDate rentalDate = rentaldate_txt.getValue(); // Retrieve as LocalDate
+	      String rentalDateString = rentalDate != null ? rentalDate.toString() : ""; // Convert LocalDate to String or set to empty string if null
+	      String rentalPeriod = getSelectedRentalPeriod();
+	      
+
 	      // Validate tenant ID format and length
 	      if (!tenantId.matches("\\d{1,20}")) {
 	          invalid.setText("Invalid ID: Please enter a valid tenant ID.");
 	          return;
 	      }
 
-	      String fullName = fullname_txt.getText();
-	      String gender = male.isSelected() ? "Male" : "Female";
-	      String phone = phone_txt.getText().toString();
-	      LocalDate rentalDate = rentaldate_txt.getValue(); // Retrieve as LocalDate
-	      String rentalDateString = rentalDate.toString(); // Convert LocalDate to String
-	      String rentalPeriod = getSelectedRentalPeriod().toString();
+
+	      // Validate rental date
+	      if (rentalDate == null) {
+	          invalid.setText("Please select a rental date.");
+	          return;
+	      }
+	      
+	      if (gender == "") {
+	          invalid.setText("Please select a gender.");
+	          return;
+	      }
+
+	      // Validate rental period
+	      if (rentalPeriod == null) {
+	          invalid.setText("Please select a rental period.");
+	          return;
+	      }
+	      
+	      // Validate phone number format
+			if (!phone.matches("\\d{10}")) {
+				invalid.setText("Invalid phone number: Please enter a 10-digit number."); // Show error message
+				return;
+			}
+			
+			//validate fullname
+			if (fullName.isEmpty()) {
+				invalid.setText("Please enter the full name."); // Show error message
+				return;
+			}
+			
+			
+
 
 	      // Print debug information
 	      System.out.println("tenantId: " + tenantId);
@@ -230,18 +356,28 @@ public class TenantControlPage {
 	      System.out.println("rentalDate: " + rentalDateString); // Pass rentalDateString instead
 	      System.out.println("rentalPeriod: " + rentalPeriod);
 
-	      // Validate and insert data into the database
-	      String errorMessage = db.createOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod); // Pass rentalDateString
+	      // Validate and update data in the database
+	      String errorMessage = db.updateOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod); // Pass rentalDateString
 	      if (errorMessage == null) {
 	          refreshTable();
+	          // Reset all fields
+	          id_txt.setText("");
+	          fullname_txt.setText("");
+	          phone_txt.setText("");
+	          rentaldate_txt.setValue(null);
+	          male.setSelected(false);
+	          female.setSelected(false);
+	          three_months.setSelected(false);
+	          six_months.setSelected(false);
+	          nine_months.setSelected(false);
+	          twelve_months.setSelected(false);
+	          invalid.setText(""); // Clear any error message
 	      } else {
-	          // Data insertion failed, show error message
+	          // Data update failed, show error message
 	          invalid.setText(errorMessage);
 	      }
 	  }
 
-
-	  
 
 
 	  // Method to get the selected rental period
@@ -259,7 +395,6 @@ public class TenantControlPage {
 	  }
 
 
-
 	  @FXML
 	    public void refreshTable() {
 	        // Fetch the latest data from the database
@@ -272,6 +407,9 @@ public class TenantControlPage {
 	        table.getItems().clear(); // Clear existing data
 	        table.getItems().addAll(newDataList); // Add new data to the table
 	    }
+	  
+	  
+	  
 		
 		
 }
