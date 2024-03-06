@@ -1,0 +1,29 @@
+#mainWindow {
+		 -fx-background-color: linear-gradient(lightgreen,skyblue );
+}
+
+#rightWindow{
+	 -fx-background-color: linear-gradient(lightgreen, skyblue);
+	    -fx-border-color: black; 
+	
+}
+
+#line {
+    -fx-background-color: black;
+}
+
+#adminImg{
+	-fx-background-color: transparent;
+	
+}
+#UpdateNav {
+    -fx-background-color: linear-gradient(black, #EEEEEE);
+    -fx-border-color: black; /* Border color */
+    -fx-border-radius: 5px; /* Border radius */
+}
+
+#container {
+    -fx-background-color: linear-gradient(#DEDEDE, gray);
+	
+}
+

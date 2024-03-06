@@ -98,4 +98,26 @@ public class HomeControlPage {
          }
 	}
     
+    @FXML
+   	public void UpdatePriceHandler(MouseEvent event) {
+       	 try {
+                // Get the source node of the event
+                Parent root = FXMLLoader.load(getClass().getResource("/UpdatePrice.fxml"));
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Update Price");
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/rent.png")));
+                stage.initStyle(StageStyle.DECORATED);
+                stage.setResizable(false);
+                stage.show();
+
+                // Close the current stage
+                stage = (Stage) TotalLbl.getScene().getWindow();
+                stage.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+   	}
+    
 }

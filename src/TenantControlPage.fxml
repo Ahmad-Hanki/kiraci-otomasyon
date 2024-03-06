@@ -57,7 +57,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </AnchorPane>
-            <AnchorPane fx:id="UpdateNav" layoutX="4.0" layoutY="385.0" prefHeight="46.0" prefWidth="191.0">
+            <AnchorPane fx:id="UpdateNav" layoutX="4.0" layoutY="385.0" prefHeight="46.0" prefWidth="191.0"  onMouseClicked="#UpdatePriceHandler">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="6.0" prefHeight="40.0" prefWidth="36.0" text="💱" textAlignment="CENTER">
                      <font>

@@ -12,8 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
-public class TenantControlPage {
+public class UpdatePrice {
+	
 	@FXML
 	private Label summary;
 	  @FXML
@@ -59,26 +59,27 @@ public class TenantControlPage {
 	            e.printStackTrace();
 	        }
 	    }
+	  
+	    @FXML
+		public void TenantControlHandler(MouseEvent event) {
+	    	 try {
+	             // Get the source node of the event
+	             Parent root = FXMLLoader.load(getClass().getResource("/TenantControlPage.fxml"));
 
-	  @FXML
-	   	public void UpdatePriceHandler(MouseEvent event) {
-	       	 try {
-	                // Get the source node of the event
-	                Parent root = FXMLLoader.load(getClass().getResource("/UpdatePrice.fxml"));
+	             Stage stage = new Stage();
+	             stage.setScene(new Scene(root));
+	             stage.setTitle("Control Tenants");
+	             stage.getIcons().add(new Image(getClass().getResourceAsStream("/rent.png")));
+	             stage.initStyle(StageStyle.DECORATED);
+	             stage.setResizable(false);
+	             stage.show();
 
-	                Stage stage = new Stage();
-	                stage.setScene(new Scene(root));
-	                stage.setTitle("Update Price");
-	                stage.getIcons().add(new Image(getClass().getResourceAsStream("/rent.png")));
-	                stage.initStyle(StageStyle.DECORATED);
-	                stage.setResizable(false);
-	                stage.show();
-
-	                // Close the current stage
-	                stage = (Stage) summary.getScene().getWindow();
-	                stage.close();
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	   	}
+	             // Close the current stage
+	             stage = (Stage) summary.getScene().getWindow();
+	             stage.close();
+	         } catch (IOException e) {
+	             e.printStackTrace();
+	         }
+		}
+	    
 }
