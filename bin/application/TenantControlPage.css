@@ -27,3 +27,34 @@
 	
 }
 
+#delete {
+		-fx-background-color: red;
+		
+}
+
+#clear {
+		-fx-background-color: purple;
+		
+	
+}
+
+
+#update {
+		-fx-background-color: skyblue;
+	
+}
+
+#add {
+		-fx-background-color: lightgreen;
+	
+}
+
+#table {
+	    -fx-background-color: lightgray;
+	
+} 
+
+#id_txt {
+		    -fx-background-color: #EEEEEE;
+	
+}

@@ -40,7 +40,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </AnchorPane>
-            <AnchorPane fx:id="AddNav" layoutX="4.0" layoutY="320.0" prefHeight="46.0" prefWidth="191.0" onMouseClicked="#TenantControlHandler">
+            <AnchorPane fx:id="AddNav" layoutX="4.0" layoutY="320.0" onMouseClicked="#tenantControlHandler" prefHeight="46.0" prefWidth="191.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="6.0" prefHeight="40.0" prefWidth="36.0" text="➕" textAlignment="CENTER">
                      <font>
