@@ -46,26 +46,64 @@ public class db {
         return data;
     }
 
-    
     // Method to insert a new record into the database
-    public static void createOne(int tenantId, String fullName, String gender, String phone, String rentalDate, String rentalPeriod) {
+ // Method to insert a new record into the database
+    public static String createOne(String tenantId, String fullName, String gender, String phone, String rentalDate, String rentalPeriod) {
+        // Validate inputs
+        if (fullName.isEmpty()) {
+            return "Full name cannot be empty.";
+        }
+
+        if (gender.isEmpty() || (!gender.equalsIgnoreCase("Male") && !gender.equalsIgnoreCase("Female"))) {
+            return "Invalid gender. Gender must be either 'Male' or 'Female'.";
+        }
+
+        if (phone.isEmpty()) {
+            return "Phone number cannot be empty.";
+        }
+
+        if (rentalDate.isEmpty()) {
+            return "Rental date cannot be empty.";
+        }
+
+        // Validate phone number format and length
+        if (!phone.matches("\\d{8,11}")) {
+            return "Invalid phone number format or length.";
+        }
+
+        // Extract the number part from the rental period string
+        String[] parts = rentalPeriod.split(" ");
+        if (parts.length != 2 || !parts[1].equals("Months")) {
+            return "Invalid rental period format. Expected format: <number> Months";
+        }
+
+        // Validate tenant ID length
+        if (tenantId.length() < 1 || tenantId.length() > 20) {
+            return "Invalid tenant ID length. It must be between 1 and 20 characters.";
+        }
+
+        // Proceed with inserting data into the database
         String query = "INSERT INTO tenant (tenant_id, full_name, gender, phone, rental_date, rental_period) VALUES (?, ?, ?, ?, ?, ?)";
-        
+
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, tenantId);
+            stmt.setString(1, tenantId);
             stmt.setString(2, fullName);
             stmt.setString(3, gender);
             stmt.setString(4, phone);
-            stmt.setString(5, rentalDate);
-            stmt.setString(6, rentalPeriod);
-            
+            stmt.setString(5, rentalDate); // Pass rentalDate as String
+            stmt.setString(6, rentalPeriod); // Inserting rental period as string
+
             // Execute the update
             stmt.executeUpdate();
-            
+
             System.out.println("New record inserted successfully!");
+            return null; // Return null to indicate success
         } catch (SQLException e) {
             e.printStackTrace();
+            return "Error inserting record: " + e.getMessage(); // Return error message
         }
     }
+
+
 }

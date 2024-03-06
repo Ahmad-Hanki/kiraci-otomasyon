@@ -205,6 +205,7 @@
                   <Font size="14.0" />
                </font>
             </RadioButton>
+            <Label fx:id="invalid" layoutX="381.0" layoutY="485.0" textFill="#ff0000" />
          </children></AnchorPane>
       <Label fx:id="summary" alignment="CENTER" contentDisplay="CENTER" layoutX="334.0" layoutY="12.0" prefHeight="18.0" prefWidth="465.0" text="Control the table above" textAlignment="CENTER">
          <font>

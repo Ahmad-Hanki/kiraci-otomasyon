@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 
 
 public class TenantControlPage {
@@ -92,7 +96,9 @@ public class TenantControlPage {
 	    @FXML
 	    private Button add;
 	    
-	    
+	    @FXML
+	    private Label invalid;
+
 
 	  @FXML
 	    public void logOutHandler(MouseEvent event) {
@@ -199,11 +205,73 @@ public class TenantControlPage {
 	  }
 
 
+	  @FXML
+	  public void addHandler(ActionEvent event) {
+	      // Retrieve input values from JavaFX controls
+	      String tenantId = id_txt.getText().toString(); // Parsing as String
+	      // Validate tenant ID format and length
+	      if (!tenantId.matches("\\d{1,20}")) {
+	          invalid.setText("Invalid ID: Please enter a valid tenant ID.");
+	          return;
+	      }
+
+	      String fullName = fullname_txt.getText();
+	      String gender = male.isSelected() ? "Male" : "Female";
+	      String phone = phone_txt.getText().toString();
+	      LocalDate rentalDate = rentaldate_txt.getValue(); // Retrieve as LocalDate
+	      String rentalDateString = rentalDate.toString(); // Convert LocalDate to String
+	      String rentalPeriod = getSelectedRentalPeriod().toString();
+
+	      // Print debug information
+	      System.out.println("tenantId: " + tenantId);
+	      System.out.println("fullName: " + fullName);
+	      System.out.println("gender: " + gender);
+	      System.out.println("phone: " + phone);
+	      System.out.println("rentalDate: " + rentalDateString); // Pass rentalDateString instead
+	      System.out.println("rentalPeriod: " + rentalPeriod);
+
+	      // Validate and insert data into the database
+	      String errorMessage = db.createOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod); // Pass rentalDateString
+	      if (errorMessage == null) {
+	          refreshTable();
+	      } else {
+	          // Data insertion failed, show error message
+	          invalid.setText(errorMessage);
+	      }
+	  }
+
 
 	  
+
+
+	  // Method to get the selected rental period
+	  private String getSelectedRentalPeriod() {
+	      if (three_months.isSelected()) {
+	          return "3 Months";
+	      } else if (six_months.isSelected()) {
+	          return "6 Months";
+	      } else if (nine_months.isSelected()) {
+	          return "9 Months";
+	      } else if (twelve_months.isSelected()) {
+	          return "12 Months";
+	      }
+	      return null;
+	  }
+
+
+
 	  @FXML
-	  public void addHandler(MouseEvent event) {
-		}
+	    public void refreshTable() {
+	        // Fetch the latest data from the database
+	        List<Object[]> newData = db.selectAll();
+
+	        // Convert the list to an observable list
+	        ObservableList<Object[]> newDataList = FXCollections.observableArrayList(newData);
+
+	        // Update the table with the new data
+	        table.getItems().clear(); // Clear existing data
+	        table.getItems().addAll(newDataList); // Add new data to the table
+	    }
 		
 		
 }
