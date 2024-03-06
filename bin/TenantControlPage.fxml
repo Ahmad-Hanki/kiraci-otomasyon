@@ -130,7 +130,7 @@
                   <Font size="17.0" />
                </font>
             </Label>
-            <Label fx:id="phone" layoutX="339.0" layoutY="318.0" text="#Phone">
+            <Label layoutX="339.0" layoutY="318.0" text="#Phone">
                <font>
                   <Font size="17.0" />
                </font>
@@ -166,9 +166,9 @@
                </font>
             </Button>
             <TextField fx:id="id_txt" layoutX="124.0" layoutY="283.0" />
-            <TextField fx:id="id_txt1" layoutX="124.0" layoutY="318.0" />
-            <TextField fx:id="id_txt2" layoutX="458.0" layoutY="318.0" promptText="Only TR (+90)" />
-            <DatePicker layoutX="124.0" layoutY="354.0" prefHeight="46.0" prefWidth="175.0" />
+            <TextField fx:id="fullname_txt" layoutX="124.0" layoutY="318.0" />
+            <TextField fx:id="phone_txt" layoutX="458.0" layoutY="318.0" promptText="Only TR (+90)" />
+            <DatePicker fx:id="rentaldate_txt" layoutX="124.0" layoutY="354.0" prefHeight="46.0" prefWidth="175.0" />
             <RadioButton fx:id="male" layoutX="458.0" layoutY="285.0" mnemonicParsing="false" text="Male">
                <font>
                   <Font size="14.0" />
