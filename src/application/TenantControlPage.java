@@ -199,7 +199,7 @@ public class TenantControlPage {
 	  @SuppressWarnings("unused")
 	@FXML
 	  public void addHandler(ActionEvent event) {
-	      String tenantId = id_txt.getText().trim(); 
+	      String tenantId = id_txt.getText().trim().toString(); 
 	      String fullName = fullname_txt.getText().trim();
 	      String phone = phone_txt.getText().trim();
 	      LocalDate rentalDate = rentaldate_txt.getValue(); 
@@ -383,7 +383,7 @@ public class TenantControlPage {
 	  
 	  @FXML
 	  public void deleteHandler(ActionEvent event) {
-	      String tenantId = id_txt.getText().trim().toString(); // Retrieve ID from id_txt
+	      String tenantId = id_txt.getText().trim().toString(); 
 
 	      // Check if ID is empty
 	      if (tenantId.isEmpty()) {
@@ -396,18 +396,14 @@ public class TenantControlPage {
 	      confirmDialog.setHeaderText("Delete Tenant");
 	      confirmDialog.setContentText("Are you sure you want to delete the tenant with ID " + tenantId + "?");
 
-	      // Show confirmation dialog and handle user response
 	      confirmDialog.showAndWait().ifPresent(response -> {
 	          if (response == ButtonType.OK) {
-	              // User confirmed deletion, call deleteById method
 	              String errorMessage = db.deleteById(tenantId);
 	              if (errorMessage == null) {
 	                 
-	                  // Refresh table after deletion
 	                  refreshTable();
 	              } else {
-	                  // Error occurred while deleting tenant
-	                  invalid.setText(errorMessage); // Set invalid label to display error message
+	                  invalid.setText(errorMessage); 
 	              }
 	          }
 	      });
