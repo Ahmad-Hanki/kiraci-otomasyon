@@ -11,25 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class db {
-    // Establish connection method
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/javafx", "root", "ZxOoO1234");
     }
 
-    // Method to fetch data from the database and return as a list of objects
     public static List<Object[]> selectAll() {
         List<Object[]> data = new ArrayList<>();
 
-        // Establish connection
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM tenant")) {
 
-            // Iterate over the result set and fetch data
             while (rs.next()) {
-                Object[] rowData = new Object[6]; // Assuming 6 columns in your table
+                Object[] rowData = new Object[6]; 
 
-                // Populate rowData with data from the result set
                 rowData[0] = rs.getInt("tenant_id");
                 rowData[1] = rs.getString("full_name");
                 rowData[2] = rs.getString("gender");
@@ -37,7 +32,6 @@ public class db {
                 rowData[4] = rs.getDate("rental_date").toString();
                 rowData[5] = rs.getString("rental_period");
 
-                // Add rowData to the list
                 data.add(rowData);
             }
         } catch (SQLException e) {
@@ -47,8 +41,6 @@ public class db {
         return data;
     }
 
-    // Method to insert a new record into the database
- // Method to insert a new record into the database
     public static String createOne(String tenantId, String fullName, String gender, String phone, String rentalDate, String rentalPeriod) {
     	
     	boolean exists = checkTenantExists(tenantId);
@@ -59,18 +51,15 @@ public class db {
 	
         
 
-        // Extract the number part from the rental period string
         String[] parts = rentalPeriod.split(" ");
         if (parts.length != 2 || !parts[1].equals("Months")) {
             return "Invalid rental period format. Expected format: <number> Months";
         }
 
-        // Validate tenant ID length
         if (tenantId.length() < 1 || tenantId.length() > 20) {
             return "Invalid tenant ID length. It must be between 1 and 20 characters.";
         }
 
-        // Proceed with inserting data into the database
         String query = "INSERT INTO tenant (tenant_id, full_name, gender, phone, rental_date, rental_period) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
@@ -79,17 +68,17 @@ public class db {
             stmt.setString(2, fullName);
             stmt.setString(3, gender);
             stmt.setString(4, phone);
-            stmt.setString(5, rentalDate); // Pass rentalDate as String
-            stmt.setString(6, rentalPeriod); // Inserting rental period as string
+            stmt.setString(5, rentalDate); 
+            stmt.setString(6, rentalPeriod); 
 
             // Execute the update
             stmt.executeUpdate();
 
             System.out.println("New record inserted successfully!");
-            return null; // Return null to indicate success
+            return null; 
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error inserting record: " + e.getMessage(); // Return error message
+            return "Error inserting record: " + e.getMessage(); 
         }
     }
 
@@ -98,7 +87,6 @@ public class db {
     public static String updateOne(String tenantId, String fullName, String gender, String phone, String rentalDate, String rentalPeriod) {
 
 
-        // Check if the tenant ID exists in the database
         boolean exists = checkTenantExists(tenantId);
         if (!exists) {
             return "No tenant found with ID: " + tenantId;
@@ -107,13 +95,13 @@ public class db {
 
      
 
-        // Extract the number part from the rental period string
+        
         String[] parts = rentalPeriod.split(" ");
         if (parts.length != 2 || !parts[1].equals("Months")) {
             return "Invalid rental period format. Expected format: <number> Months";
         }
 
-        // Proceed with updating data in the database
+        
         String query = "UPDATE tenant SET full_name=?, gender=?, phone=?, rental_date=?, rental_period=? WHERE tenant_id=?";
 
         try (Connection conn = getConnection();
@@ -121,8 +109,8 @@ public class db {
         	stmt.setString(1, fullName);
         	stmt.setString(2, gender);
         	stmt.setString(3, phone);
-        	stmt.setString(4, rentalDate); // Set rentalDate as a string
-        	stmt.setString(5, rentalPeriod); // Inserting rental period as string
+        	stmt.setString(4, rentalDate); 
+        	stmt.setString(5, rentalPeriod); 
         	stmt.setString(6, tenantId);
         	
             int rowsAffected = stmt.executeUpdate();
@@ -131,13 +119,46 @@ public class db {
             }
 
             System.out.println("Record updated successfully!");
-            return null; // Return null to indicate success
+            return null; 
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error updating record: " + e.getMessage(); // Return error message
+            return "Error updating record: " + e.getMessage(); 
         }
     }
 
+
+
+    public static void deleteAll() {
+        String query = "DELETE FROM tenant";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.executeUpdate();
+            System.out.println("All tenants deleted successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String deleteById(String tenantId) {
+        // Check if the tenant ID exists in the database
+        boolean exists = checkTenantExists(tenantId);
+        if (!exists) {
+            return "Tenant does not exist";
+        }
+
+        String query = "DELETE FROM tenant WHERE tenant_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, tenantId);
+            stmt.executeUpdate();
+            System.out.println("Tenant with ID " + tenantId + " deleted successfully!");
+            return null; // Return null to indicate success
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error deleting tenant: " + e.getMessage(); // Return error message
+        }
+    }
+    
     private static boolean checkTenantExists(String tenantId) {
         String query = "SELECT COUNT(*) FROM tenant WHERE tenant_id = ?";
         try (Connection conn = getConnection();
@@ -154,6 +175,5 @@ public class db {
         }
         return false;
     }
-
 
 }

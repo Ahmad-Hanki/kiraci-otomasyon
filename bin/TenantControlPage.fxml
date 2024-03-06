@@ -145,12 +145,12 @@
                   <Font size="17.0" />
                </font>
             </Label>
-            <Button fx:id="clear" layoutX="134.0" layoutY="429.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="102.0" text="Clear">
+            <Button fx:id="clear" layoutX="134.0" layoutY="429.0" mnemonicParsing="false" onAction="#clearHandler" prefHeight="35.0" prefWidth="102.0" text="Clear">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="delete" layoutX="254.0" layoutY="429.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="102.0" text="Delete">
+            <Button fx:id="delete" layoutX="254.0" layoutY="429.0" mnemonicParsing="false" onAction="#deleteHandler" prefHeight="35.0" prefWidth="102.0" text="Delete">
                <font>
                   <Font size="18.0" />
                </font>
