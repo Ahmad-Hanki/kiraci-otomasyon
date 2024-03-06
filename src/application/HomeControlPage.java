@@ -25,14 +25,12 @@ public class HomeControlPage {
 
     @FXML
     public void initialize() {
-        // Call a method to retrieve the row count and update the label when the page loads
         updateRowCountLabel();
     }
 
     @FXML
     public void logOutHandler(MouseEvent event) {
         try {
-            // Get the source node of the event
             Parent root = FXMLLoader.load(getClass().getResource("/LoginForm.fxml"));
 
             Stage stage = new Stage();
@@ -43,7 +41,6 @@ public class HomeControlPage {
             stage.setResizable(false);
             stage.show();
 
-            // Close the current stage
             stage = (Stage) TotalLbl.getScene().getWindow();
             stage.close();
         } catch (IOException e) {
@@ -53,22 +50,17 @@ public class HomeControlPage {
 
     @FXML
     private void updateRowCountLabel() {
-        // Database connection parameters
         String url = "jdbc:mysql://localhost:3306/javaFx";
         String username = "root";
         String password = "ZxOoO1234";
 
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            // Create a statement
             Statement statement = conn.createStatement();
 
-            // Execute query to count rows
             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS row_count FROM tenant");
 
-            // Retrieve the row count
             if (resultSet.next()) {
                 int rowCount = resultSet.getInt("row_count");
-                // Update the label with the row count
                 TotalLbl.setText(String.valueOf(rowCount));
             }
         } catch (SQLException e) {
@@ -79,7 +71,6 @@ public class HomeControlPage {
     @FXML
 	public void tenantControlHandler(MouseEvent event) {
     	 try {
-             // Get the source node of the event
              Parent root = FXMLLoader.load(getClass().getResource("/TenantControlPage.fxml"));
 
              Stage stage = new Stage();
@@ -90,7 +81,6 @@ public class HomeControlPage {
              stage.setResizable(false);
              stage.show();
 
-             // Close the current stage
              stage = (Stage) TotalLbl.getScene().getWindow();
              stage.close();
          } catch (IOException e) {

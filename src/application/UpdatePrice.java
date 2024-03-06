@@ -30,11 +30,11 @@ public class UpdatePrice {
 	            stage.setResizable(false);
 	            stage.show();
 
-	            // Close the current stage
 	            stage = (Stage) summary.getScene().getWindow();
 	            stage.close();
 	        } catch (IOException e) {
 	            e.printStackTrace();
+	            
 	        }
 	    }
 	  
