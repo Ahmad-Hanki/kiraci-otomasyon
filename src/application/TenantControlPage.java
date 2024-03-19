@@ -191,6 +191,37 @@ public class TenantControlPage {
 
 	      rental_period.setCellValueFactory(cellData ->
 	              new SimpleObjectProperty<String>((String) cellData.getValue()[5]));
+	      
+	      // Add listener for row selection changes
+	      table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+	          if (newSelection != null) {
+	              // Populate form fields with data from selected row
+	              Object[] rowData = newSelection;
+	              id_txt.setText(rowData[0].toString());
+	              fullname_txt.setText(rowData[1].toString());
+	              if (rowData[2].toString().equals("Male")) {
+	                  male.setSelected(true);
+	              } else {
+	                  female.setSelected(true);
+	              }
+	              phone_txt.setText(rowData[3].toString());
+	              rentaldate_txt.setValue(LocalDate.parse(rowData[4].toString()));
+	              switch (rowData[5].toString()) {
+	                  case "3 Months":
+	                      three_months.setSelected(true);
+	                      break;
+	                  case "6 Months":
+	                      six_months.setSelected(true);
+	                      break;
+	                  case "9 Months":
+	                      nine_months.setSelected(true);
+	                      break;
+	                  case "12 Months":
+	                      twelve_months.setSelected(true);
+	                      break;
+	              }
+	          }
+	      });
 
 	      table.getItems().setAll(data);
 	  }
