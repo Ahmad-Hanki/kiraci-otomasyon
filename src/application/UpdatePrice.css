@@ -27,3 +27,29 @@
 	
 }
 
+
+#save {
+    -fx-background-color: linear-gradient(skyblue, lightgreen);
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 20;
+    -fx-border-radius: 5;
+}
+
+#save:hover {
+    -fx-background-color: linear-gradient(skyblue, lime);
+}
+
+#isPaid {
+    -fx-border-radius: 5px; 
+}
+
+#fullname_txt, #renatl_period_txt {
+    -fx-background-radius: 10px; 
+    -fx-background-color: #dddddd;
+}
+
+#price_txt {
+	    -fx-background-radius: 10px; 
+    -fx-background-color: white;
+}
+

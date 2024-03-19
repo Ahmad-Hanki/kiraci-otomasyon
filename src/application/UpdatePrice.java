@@ -1,21 +1,183 @@
 package application;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+
 public class UpdatePrice {
 	
 	@FXML
-	private Label summary;
+    private Label summary;
+
+    @FXML
+    private TableView<Object[]> table;
+
+    @FXML
+    private TableColumn<Object[], String> fullNameColumn;
+    
+    @FXML
+
+    private TableColumn<Object[], String> idColumn;
+
+
+    @FXML
+    private TableColumn<Object[], String> rentalPeriodColumn;
+
+    @FXML
+    private TableColumn<Object[], Double> priceColumn;
+
+    @FXML
+    private TableColumn<Object[], Boolean> paidColumn;
+    
+    @FXML
+    private TextField fullname_txt;
+    
+    @FXML
+    private TextField id_txt;
+    
+    
+    @FXML
+    private TextField renatl_period_txt;
+
+    @FXML
+    private TextField price_txt;
+
+    @FXML
+    private CheckBox isPaid;
+    
+
+    @FXML
+    private Label label_price;
+    
+    
+    @FXML
+    public void initialize() {
+    	
+    	 table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+             if (newSelection != null) {
+                 Object[] rowData = newSelection;
+                 // Populate input fields with data from the selected row
+                 fullname_txt.setText((String) rowData[0]);
+                 renatl_period_txt.setText((String) rowData[1]);
+                 price_txt.setText(String.valueOf((Double) rowData[2]));
+                 isPaid.setSelected((Boolean) rowData[3]);
+                 id_txt.setText((String) rowData[4]);
+             }
+         });
+ 
+    	
+    	
+        fullNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[0]));
+        rentalPeriodColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[1]));
+        priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty((Double) cellData.getValue()[2]).asObject());
+        paidColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty((Boolean) cellData.getValue()[3]).asObject());
+        idColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[4]));
+
+        
+        // Populate table with data from the database
+        try {
+            ResultSet resultSet = database.getData();
+            while (resultSet.next()) {
+                table.getItems().add(new Object[] {
+                        resultSet.getString("full_name"),
+                        resultSet.getString("rental_period"),
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("paid"),
+                        resultSet.getString("tenant_id")
+
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleUpdatePrice(ActionEvent event) {
+        // get the price_txt value
+        double price = Double.parseDouble(price_txt.getText());
+        System.out.println(price);
+
+        //check if the price is less than 1
+        if (price < 1) {
+            label_price.setText("Price must be greater than 0");
+            return;
+        }
+        if (price > 99999999) {
+            label_price.setText("Price must be less than 8 digits");
+            return;
+        }
+
+        String tenant_id = id_txt.getText();
+
+        if (tenant_id.isEmpty()) {
+            label_price.setText("Please select a tenant");
+            return;
+        }
+
+        boolean paid = isPaid.isSelected();
+        System.out.println(paid);
+        
+        try {
+            database.updatePricePaid(tenant_id, price, paid);
+            label_price.setText("Price updated successfully");
+            refreshTable();
+     
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+  
+    }
+    
+    @FXML
+    public void refreshTable() {
+        // Clear existing items in the table
+        table.getItems().clear();
+        
+        // Populate table with fresh data from the database
+        try {
+            ResultSet resultSet = database.getData();
+            while (resultSet.next()) {
+                table.getItems().add(new Object[] {
+                        resultSet.getString("full_name"),
+                        resultSet.getString("rental_period"),
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("paid"),
+                        resultSet.getString("tenant_id")
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+	
 	  @FXML
 	    public void logOutHandler(MouseEvent event) {
 	        try {
