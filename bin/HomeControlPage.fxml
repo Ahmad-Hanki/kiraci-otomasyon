@@ -132,7 +132,7 @@
       </AnchorPane>
          <AnchorPane fx:id="Total" layoutX="35.0" layoutY="26.0" prefHeight="170.0" prefWidth="246.0">
             <children>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="133.0" prefHeight="27.0" prefWidth="242.0" text="Total Paid" textAlignment="CENTER" textFill="WHITE">
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="134.0" prefHeight="27.0" prefWidth="242.0" text="Total Paid" textAlignment="CENTER" textFill="WHITE">
                   <font>
                      <Font size="25.0" />
                   </font>
@@ -188,7 +188,7 @@
             </children>
          </AnchorPane>
       </AnchorPane>
-      <Label fx:id="hellothere" alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="51.0" prefHeight="18.0" prefWidth="465.0" text="Hello there!" textAlignment="CENTER">
+      <Label fx:id="hellothere" alignment="CENTER" contentDisplay="CENTER" layoutX="296.0" layoutY="51.0" prefHeight="58.0" prefWidth="533.0" text="Total incomes for this month" textAlignment="CENTER">
          <font>
             <Font size="40.0" />
          </font>
