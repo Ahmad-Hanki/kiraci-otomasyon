@@ -260,7 +260,9 @@ public class TenantControlPage {
 	      System.out.println("rentalPeriod: " + rentalPeriod);
 
 	      String errorMessage = db.createOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod);
+	      
 	      if (errorMessage == null) {
+	          refreshTable();
 	          id_txt.setText("");
 	          fullname_txt.setText("");
 	          phone_txt.setText("");
@@ -272,7 +274,6 @@ public class TenantControlPage {
 	          nine_months.setSelected(false);
 	          twelve_months.setSelected(false);
 	          invalid.setText(""); 
-	          refreshTable();
 	      } else {
 	          invalid.setText(errorMessage);
 	      }
@@ -368,18 +369,13 @@ public class TenantControlPage {
 
 
 	  @FXML
-	    public void refreshTable() {
-	   
-	        List<Object[]> newData = db.selectAll();
+	  public void refreshTable() {
+	      List<Object[]> newData = db.selectAll();
 
-	 
-	        ObservableList<Object[]> newDataList = FXCollections.observableArrayList(newData);
+	      // Clear the existing items and add all new items
+	      table.getItems().setAll(newData);
+	  }
 
-	 
-	        table.getItems().clear(); 
-	        table.getItems().addAll(newDataList); 
-	    }
-	  
 	  
 	  @FXML
 	  public void deleteHandler(ActionEvent event) {

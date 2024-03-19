@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class db {
             while (rs.next()) {
                 Object[] rowData = new Object[6]; 
 
-                rowData[0] = rs.getInt("tenant_id");
+                rowData[0] = rs.getString("tenant_id");
                 rowData[1] = rs.getString("full_name");
                 rowData[2] = rs.getString("gender");
                 rowData[3] = rs.getString("phone");
