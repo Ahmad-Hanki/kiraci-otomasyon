@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javafx.beans.property.SimpleBooleanProperty;
@@ -77,6 +79,10 @@ public class UpdatePrice {
     @FXML
     public void initialize() {
     	
+        String currentMonth = getCurrentMonth();
+        paidColumn.setText("Paid (" + currentMonth + ")");
+
+    	
     	 table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
              if (newSelection != null) {
                  Object[] rowData = newSelection;
@@ -115,6 +121,12 @@ public class UpdatePrice {
             e.printStackTrace();
         }
     }
+    
+    private String getCurrentMonth() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM");
+        return currentDate.format(monthFormatter);
+    }
 
     @FXML
     public void handleUpdatePrice(ActionEvent event) {
@@ -146,7 +158,8 @@ public class UpdatePrice {
             database.updatePricePaid(tenant_id, price, paid);
             label_price.setText("Price updated successfully");
             refreshTable();
-     
+            clearFields();
+
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,6 +188,17 @@ public class UpdatePrice {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    public void clearFields() {
+        fullname_txt.setText("");
+        renatl_period_txt.setText("");
+        price_txt.setText("");
+        isPaid.setSelected(false);
+        id_txt.setText("");
+        label_price.setText(""); // Reset label message
+    }
+
 
     
 	

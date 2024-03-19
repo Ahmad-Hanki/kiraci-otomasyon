@@ -11,7 +11,7 @@
    <children>
    <AnchorPane fx:id="wraper_white" layoutX="82.0" layoutY="44.0" prefHeight="406.0" prefWidth="488.0">
    <children>
-      <Label alignment="CENTER" layoutX="45.0" layoutY="31.0" prefHeight="30.0" prefWidth="413.0" text="Doğrulamak için Admin olarak oturum açın" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="45.0" layoutY="31.0" prefHeight="30.0" prefWidth="413.0" text="Sign in as an Admin." textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
@@ -34,6 +34,7 @@
             <Font size="24.0" />
          </font>
       </Button>
+            <Label alignment="CENTER" layoutX="105.0" layoutY="61.0" prefHeight="30.0" prefWidth="292.0" text="Note: You must be connected to your local db." textAlignment="CENTER" textFill="#cf1212" />
          </children>
 </AnchorPane>
    </children>

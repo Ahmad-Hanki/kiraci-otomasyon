@@ -277,32 +277,14 @@ public class TenantControlPage {
 			
 	      String rentalDateString = rentalDate.toString(); 
 	      
-	 
 	
-
-	      
-	      System.out.println("tenantId: " + tenantId);
-	      System.out.println("fullName: " + fullName);
-	      System.out.println("gender: " + gender);
-	      System.out.println("phone: " + phone);
-	      System.out.println("rentalDate: " + rentalDateString);
-	      System.out.println("rentalPeriod: " + rentalPeriod);
 
 	      String errorMessage = db.createOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod);
 	      
 	      if (errorMessage == null) {
-	          refreshTable();
-	          id_txt.setText("");
-	          fullname_txt.setText("");
-	          phone_txt.setText("");
-	          rentaldate_txt.setValue(null);
-	          male.setSelected(false);
-	          female.setSelected(false);
-	          three_months.setSelected(false);
-	          six_months.setSelected(false);
-	          nine_months.setSelected(false);
-	          twelve_months.setSelected(false);
-	          invalid.setText(""); 
+	            clearFields();
+	            refreshTable();
+
 	      } else {
 	          invalid.setText(errorMessage);
 	      }
@@ -351,30 +333,12 @@ public class TenantControlPage {
 				return;
 			}
 			
-			
-
-
-	      System.out.println("tenantId: " + tenantId);
-	      System.out.println("fullName: " + fullName);
-	      System.out.println("gender: " + gender);
-	      System.out.println("phone: " + phone);
-	      System.out.println("rentalDate: " + rentalDateString); 
-	      System.out.println("rentalPeriod: " + rentalPeriod);
 
 	      String errorMessage = db.updateOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod); // Pass rentalDateString
 	      if (errorMessage == null) {
 	          refreshTable();
-	          id_txt.setText("");
-	          fullname_txt.setText("");
-	          phone_txt.setText("");
-	          rentaldate_txt.setValue(null);
-	          male.setSelected(false);
-	          female.setSelected(false);
-	          three_months.setSelected(false);
-	          six_months.setSelected(false);
-	          nine_months.setSelected(false);
-	          twelve_months.setSelected(false);
-	          invalid.setText(""); 
+	            clearFields();
+
 	      } else {
 	          invalid.setText(errorMessage);
 	      }
@@ -427,6 +391,8 @@ public class TenantControlPage {
 	              if (errorMessage == null) {
 	                 
 	                  refreshTable();
+	                  clearFields();
+
 	              } else {
 	                  invalid.setText(errorMessage); 
 	              }
@@ -446,10 +412,27 @@ public class TenantControlPage {
 	          if (response == ButtonType.OK) {
 	              db.deleteAll();
 	              refreshTable();
+	              clearFields();
+
 	          }
 	      });
 	  }
 		
+	  
+	  
+	  private void clearFields() {
+		    id_txt.setText("");
+		    fullname_txt.setText("");
+		    phone_txt.setText("");
+		    rentaldate_txt.setValue(null);
+		    male.setSelected(false);
+		    female.setSelected(false);
+		    three_months.setSelected(false);
+		    six_months.setSelected(false);
+		    nine_months.setSelected(false);
+		    twelve_months.setSelected(false);
+		    invalid.setText(""); // Clear error message
+		}
 		
 	  
 }

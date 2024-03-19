@@ -21,7 +21,16 @@ public class HomeControlPage {
 
     @FXML
     private Label TotalLbl;
-
+    
+    @FXML
+    private Label totalPaid;
+    
+    @FXML
+    private Label willBePaid;
+    
+    @FXML
+    private Label unpaidtenants;
+    
     @FXML
     public void initialize() {
         updateRowCountLabel();
@@ -54,18 +63,42 @@ public class HomeControlPage {
         String password = "ZxOoO1234";
 
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            Statement statement = conn.createStatement();
+            // Query to get the sum of prices where paid is true
+            String totalPaidQuery = "SELECT SUM(price) AS total_paid FROM tenant WHERE paid = true";
 
-            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS row_count FROM tenant");
+            // Query to get the sum of prices where paid is false
+            String willBePaidQuery = "SELECT SUM(price) AS will_be_paid FROM tenant WHERE paid = false";
 
-            if (resultSet.next()) {
-                int rowCount = resultSet.getInt("row_count");
-                TotalLbl.setText(String.valueOf(rowCount));
+            // Query to count the number of unpaid tenants
+            String unpaidTenantsQuery = "SELECT COUNT(*) AS unpaid_tenants FROM tenant WHERE paid = false";
+
+            try (Statement statement = conn.createStatement()) {
+                // Get total paid amount
+                ResultSet totalPaidResultSet = statement.executeQuery(totalPaidQuery);
+                if (totalPaidResultSet.next()) {
+                    double totalPaidAmount = totalPaidResultSet.getDouble("total_paid");
+                    totalPaid.setText(String.valueOf(totalPaidAmount));
+                }
+
+                // Get total amount to be paid
+                ResultSet willBePaidResultSet = statement.executeQuery(willBePaidQuery);
+                if (willBePaidResultSet.next()) {
+                    double willBePaidAmount = willBePaidResultSet.getDouble("will_be_paid");
+                    willBePaid.setText(String.valueOf(willBePaidAmount));
+                }
+
+                // Get the number of unpaid tenants
+                ResultSet unpaidTenantsResultSet = statement.executeQuery(unpaidTenantsQuery);
+                if (unpaidTenantsResultSet.next()) {
+                    int unpaidTenantsCount = unpaidTenantsResultSet.getInt("unpaid_tenants");
+                    unpaidtenants.setText(String.valueOf(unpaidTenantsCount));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     
     @FXML
 	public void tenantControlHandler(MouseEvent event) {
