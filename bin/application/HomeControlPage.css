@@ -28,6 +28,16 @@
 			 -fx-background-color: linear-gradient(#DEDEDE,black );
 }
 
+#Total1{
+			 -fx-background-color: linear-gradient(black, #DEDEDE );
+}
+
+#hellothere{
+-fx-text-fill: linear-gradient(to bottom, #DEDEDE, black);
+	
+}
+
+
 #container {
     -fx-background-color: linear-gradient(#DEDEDE, gray);
 	

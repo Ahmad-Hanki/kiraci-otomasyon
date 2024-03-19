@@ -2,9 +2,12 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="911.0" stylesheets="@application/HomeControlPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeControlPage">
@@ -13,10 +16,21 @@
       <AnchorPane layoutX="14.0" layoutY="9.0" prefHeight="615.0" prefWidth="200.0" />
       <AnchorPane fx:id="rightWindow" layoutX="24.0" layoutY="12.0" prefHeight="615.0" prefWidth="200.0">
          <children>
-            <ImageView fx:id="adminImg" fitHeight="137.0" fitWidth="161.0" layoutX="32.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="adminImg" disable="true" fitHeight="137.0" fitWidth="161.0" layoutX="32.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@admin.png" />
                </image>
+               <effect>
+                  <Lighting bumpInput="$null">
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.5490196347236633" green="0.8705882430076599" blue="0.7450980544090271" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
             </ImageView>
             <Label fx:id="welcomeTxt" alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="168.0" prefHeight="76.0" prefWidth="138.0" text="Welocome, admin" textAlignment="CENTER" wrapText="true">
                <font>
@@ -103,7 +117,7 @@
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label fx:id="TotalLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="109.0" layoutY="17.0" prefHeight="78.0" prefWidth="138.0" text="3" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="TotalLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="109.0" layoutY="17.0" prefHeight="78.0" prefWidth="138.0" text="3" textAlignment="CENTER">
               
                            <font>
                   <Font size="53.0" />
@@ -116,14 +130,14 @@
             </Label>
          </children>
       </AnchorPane>
-         <AnchorPane fx:id="Total1" layoutX="35.0" layoutY="26.0" prefHeight="170.0" prefWidth="246.0">
+         <AnchorPane fx:id="Total" layoutX="35.0" layoutY="26.0" prefHeight="170.0" prefWidth="246.0">
             <children>
                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="133.0" prefHeight="27.0" prefWidth="242.0" text="Total Paid" textAlignment="CENTER" textFill="WHITE">
                   <font>
                      <Font size="25.0" />
                   </font>
                </Label>
-               <Label fx:id="totalPaid" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="17.0" prefHeight="76.0" prefWidth="137.0" text="120000" textAlignment="CENTER" textFill="WHITE">
+               <Label fx:id="totalPaid" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="17.0" prefHeight="76.0" prefWidth="137.0" text="120000" textAlignment="CENTER">
                   <font>
                      <Font size="25.0" />
                   </font>
@@ -135,9 +149,9 @@
                </Label>
             </children>
          </AnchorPane>
-         <AnchorPane fx:id="Total2" layoutX="324.0" layoutY="219.0" prefHeight="170.0" prefWidth="246.0">
+         <AnchorPane fx:id="Total1" layoutX="324.0" layoutY="219.0" prefHeight="170.0" prefWidth="246.0">
             <children>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="133.0" prefHeight="27.0" prefWidth="242.0" text="Total Will Be Payid" textAlignment="CENTER" textFill="WHITE">
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="133.0" prefHeight="27.0" prefWidth="242.0" text="Total Will Be Payid" textAlignment="CENTER">
                   <font>
                      <Font size="25.0" />
                   </font>
@@ -147,16 +161,16 @@
                      <Font size="25.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="16.0" prefHeight="76.0" prefWidth="72.0" text="💸" textAlignment="CENTER" textFill="#100000">
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="16.0" prefHeight="76.0" prefWidth="72.0" text="💸" textAlignment="CENTER" textFill="WHITE">
                   <font>
                      <Font size="52.0" />
                   </font>
                </Label>
             </children>
          </AnchorPane>
-         <AnchorPane fx:id="Total3" layoutX="35.0" layoutY="219.0" prefHeight="170.0" prefWidth="246.0">
+         <AnchorPane fx:id="Total1" layoutX="35.0" layoutY="219.0" prefHeight="170.0" prefWidth="246.0">
             <children>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="134.0" prefHeight="27.0" prefWidth="242.0" text="Total Unpaid Tenants" textAlignment="CENTER" textFill="WHITE">
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="134.0" prefHeight="27.0" prefWidth="242.0" text="Total Unpaid Tenants" textAlignment="CENTER">
                   <font>
                      <Font size="25.0" />
                   </font>
@@ -166,7 +180,7 @@
                      <Font size="53.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="16.0" prefHeight="76.0" prefWidth="72.0" text="👨‍👩‍👧‍👦" textAlignment="CENTER" textFill="#100000">
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="16.0" prefHeight="76.0" prefWidth="72.0" text="🏃🏿‍♂️" textAlignment="CENTER" textFill="WHITE">
                   <font>
                      <Font size="52.0" />
                   </font>
@@ -174,7 +188,7 @@
             </children>
          </AnchorPane>
       </AnchorPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="51.0" prefHeight="18.0" prefWidth="465.0" text="Hello there!" textAlignment="CENTER">
+      <Label fx:id="hellothere" alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="51.0" prefHeight="18.0" prefWidth="465.0" text="Hello there!" textAlignment="CENTER">
          <font>
             <Font size="40.0" />
          </font>

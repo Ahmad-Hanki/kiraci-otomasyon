@@ -86,7 +86,6 @@ public class UpdatePrice {
     	 table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
              if (newSelection != null) {
                  Object[] rowData = newSelection;
-                 // Populate input fields with data from the selected row
                  fullname_txt.setText((String) rowData[0]);
                  renatl_period_txt.setText((String) rowData[1]);
                  price_txt.setText(String.valueOf((Double) rowData[2]));
@@ -104,7 +103,6 @@ public class UpdatePrice {
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[4]));
 
         
-        // Populate table with data from the database
         try {
             ResultSet resultSet = database.getData();
             while (resultSet.next()) {
@@ -130,11 +128,19 @@ public class UpdatePrice {
 
     @FXML
     public void handleUpdatePrice(ActionEvent event) {
-        // get the price_txt value
-        double price = Double.parseDouble(price_txt.getText());
+    	    	
+
+        double price = 0; 
+        
+        try {
+            price = Double.parseDouble(price_txt.getText());
+        } catch (Exception e) {    	
+            label_price.setText("Price must be a number");
+            return; 
+        }
+    	
         System.out.println(price);
 
-        //check if the price is less than 1
         if (price < 1) {
             label_price.setText("Price must be greater than 0");
             return;
@@ -169,10 +175,8 @@ public class UpdatePrice {
     
     @FXML
     public void refreshTable() {
-        // Clear existing items in the table
         table.getItems().clear();
         
-        // Populate table with fresh data from the database
         try {
             ResultSet resultSet = database.getData();
             while (resultSet.next()) {
@@ -196,7 +200,7 @@ public class UpdatePrice {
         price_txt.setText("");
         isPaid.setSelected(false);
         id_txt.setText("");
-        label_price.setText(""); // Reset label message
+        label_price.setText(""); 
     }
 
 
@@ -205,7 +209,7 @@ public class UpdatePrice {
 	  @FXML
 	    public void logOutHandler(MouseEvent event) {
 	        try {
-	            // Get the source node of the event
+	          
 	            Parent root = FXMLLoader.load(getClass().getResource("/LoginForm.fxml"));
 
 	            Stage stage = new Stage();
@@ -227,7 +231,7 @@ public class UpdatePrice {
 	  @FXML
 	    public void HomePageHandler(MouseEvent event) {
 	        try {
-	            // Get the source node of the event
+	          
 	            Parent root = FXMLLoader.load(getClass().getResource("/HomeControlPage.fxml"));
 
 	            Stage stage = new Stage();
@@ -238,7 +242,6 @@ public class UpdatePrice {
 	            stage.setResizable(false);
 	            stage.show();
 
-	            // Close the current stage
 	            stage = (Stage) summary.getScene().getWindow();
 	            stage.close();
 	        } catch (IOException e) {
@@ -249,7 +252,6 @@ public class UpdatePrice {
 	    @FXML
 		public void TenantControlHandler(MouseEvent event) {
 	    	 try {
-	             // Get the source node of the event
 	             Parent root = FXMLLoader.load(getClass().getResource("/TenantControlPage.fxml"));
 
 	             Stage stage = new Stage();
@@ -260,7 +262,6 @@ public class UpdatePrice {
 	             stage.setResizable(false);
 	             stage.show();
 
-	             // Close the current stage
 	             stage = (Stage) summary.getScene().getWindow();
 	             stage.close();
 	         } catch (IOException e) {
