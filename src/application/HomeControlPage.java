@@ -63,16 +63,26 @@ public class HomeControlPage {
         String password = "ZxOoO1234";
 
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            // Query to get the sum of prices where paid is true
-            String totalPaidQuery = "SELECT SUM(price) AS total_paid FROM tenant WHERE paid = true";
-
-            // Query to get the sum of prices where paid is false
-            String willBePaidQuery = "SELECT SUM(price) AS will_be_paid FROM tenant WHERE paid = false";
-
-            // Query to count the number of unpaid tenants
-            String unpaidTenantsQuery = "SELECT COUNT(*) AS unpaid_tenants FROM tenant WHERE paid = false";
+            // Query to get the total number of tenants
+            String totalTenantsQuery = "SELECT COUNT(*) AS total_tenants FROM tenant";
 
             try (Statement statement = conn.createStatement()) {
+                // Get total number of tenants
+                ResultSet totalTenantsResultSet = statement.executeQuery(totalTenantsQuery);
+                if (totalTenantsResultSet.next()) {
+                    int totalTenantsCount = totalTenantsResultSet.getInt("total_tenants");
+                    TotalLbl.setText(String.valueOf(totalTenantsCount));
+                }
+
+                // Query to get the sum of prices where paid is true
+                String totalPaidQuery = "SELECT SUM(price) AS total_paid FROM tenant WHERE paid = true";
+
+                // Query to get the sum of prices where paid is false
+                String willBePaidQuery = "SELECT SUM(price) AS will_be_paid FROM tenant WHERE paid = false";
+
+                // Query to count the number of unpaid tenants
+                String unpaidTenantsQuery = "SELECT COUNT(*) AS unpaid_tenants FROM tenant WHERE paid = false";
+
                 // Get total paid amount
                 ResultSet totalPaidResultSet = statement.executeQuery(totalPaidQuery);
                 if (totalPaidResultSet.next()) {
@@ -98,6 +108,7 @@ public class HomeControlPage {
             e.printStackTrace();
         }
     }
+
 
     
     @FXML
