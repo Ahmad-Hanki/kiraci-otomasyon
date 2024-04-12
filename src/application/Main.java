@@ -20,7 +20,6 @@ public class Main extends Application {
 	        Scene loginScene = new Scene(root);
 	        loginScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); // Corrected path
 
-	        // Set the scene for the login form
 	        
 	        stage.setScene(loginScene);
 	        stage.show();

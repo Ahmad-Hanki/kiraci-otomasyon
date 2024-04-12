@@ -153,7 +153,6 @@ public class TenantControlPage {
 	                stage.setResizable(false);
 	                stage.show();
 
-	                // Close the current stage
 	                stage = (Stage) summary.getScene().getWindow();
 	                stage.close();
 	            } catch (IOException e) {
@@ -190,10 +189,8 @@ public class TenantControlPage {
 	      rental_period.setCellValueFactory(cellData ->
 	              new SimpleObjectProperty<String>((String) cellData.getValue()[5]));
 	      
-	      // Add listener for row selection changes
 	      table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 	          if (newSelection != null) {
-	              // Populate form fields with data from selected row
 	              Object[] rowData = newSelection;
 	              id_txt.setText(rowData[0].toString());
 	              fullname_txt.setText(rowData[1].toString());
@@ -293,12 +290,12 @@ public class TenantControlPage {
 
 	  @FXML
 	  public void updateHandler(ActionEvent event) {
-	      String tenantId = id_txt.getText().toString(); // Parsing as String
+	      String tenantId = id_txt.getText().toString(); 
 	      String fullName = fullname_txt.getText().toString();
 	      String gender = male.isSelected() ? "Male" : (female.isSelected() ? "Female" : "");
 	      String phone = phone_txt.getText().toString();
-	      LocalDate rentalDate = rentaldate_txt.getValue(); // Retrieve as LocalDate
-	      String rentalDateString = rentalDate != null ? rentalDate.toString() : ""; // Convert LocalDate to String or set to empty string if null
+	      LocalDate rentalDate = rentaldate_txt.getValue(); 
+	      String rentalDateString = rentalDate != null ? rentalDate.toString() : ""; 
 	      String rentalPeriod = getSelectedRentalPeriod();
 	      
 
@@ -334,7 +331,7 @@ public class TenantControlPage {
 			}
 			
 
-	      String errorMessage = db.updateOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod); // Pass rentalDateString
+	      String errorMessage = db.updateOne(tenantId, fullName, gender, phone, rentalDateString, rentalPeriod); 
 	      if (errorMessage == null) {
 	          refreshTable();
 	            clearFields();
@@ -346,7 +343,6 @@ public class TenantControlPage {
 
 
 
-	  // Method to get the selected rental period
 	  private String getSelectedRentalPeriod() {
 	      if (three_months.isSelected()) {
 	          return "3 Months";
@@ -363,10 +359,7 @@ public class TenantControlPage {
 
 	  @FXML
 	  public void refreshTable() {
-	      List<Object[]> newData = db.selectAll();
-
-	      // Clear the existing items and add all new items
-	      table.getItems().setAll(newData);
+	      initialize();
 	  }
 
 	  
@@ -374,7 +367,6 @@ public class TenantControlPage {
 	  public void deleteHandler(ActionEvent event) {
 	      String tenantId = id_txt.getText().trim().toString(); 
 
-	      // Check if ID is empty
 	      if (tenantId.isEmpty()) {
 	          invalid.setText("Please enter a tenant ID to delete.");
 	          return;
@@ -431,7 +423,7 @@ public class TenantControlPage {
 		    six_months.setSelected(false);
 		    nine_months.setSelected(false);
 		    twelve_months.setSelected(false);
-		    invalid.setText(""); // Clear error message
+		    invalid.setText(""); 
 		}
 		
 	  

@@ -26,10 +26,10 @@ public class LoginForm {
     @FXML
     private TextField password_text;
 
-    // Database credentials
     private  String url = "jdbc:mysql://localhost:3306/JavaFx";
-    private  String user = "root"; // MySQL username
-    private  String password = "ZxOoO1234"; // MySQL password
+    private  String user = "root"; 
+    private  String password = "ZxOoO1234"; 
+    
 
     @FXML
     public void verifyLogin(ActionEvent event) {
@@ -58,6 +58,7 @@ public class LoginForm {
             }
         } catch (SQLException e) {
             System.out.println("Login failed: Database connection error");
+            username_text.setText("Login failed: Database connection error");
             e.printStackTrace();
         }
     }
